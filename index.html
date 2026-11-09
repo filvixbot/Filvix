@@ -75,7 +75,6 @@
             text-align: center;
             padding: 20px;
         }
-        /* Стили для встроенного плеера */
         iframe {
             width: 100%;
             height: 100%;
@@ -93,8 +92,8 @@
 
     <div class="player-container">
         <div id="placeholder" class="placeholder">Введите ID и нажмите «Смотреть»</div>
-        <!-- Плеер встраивается прямо внутрь приложения через iframe -->
-        <iframe id="playerFrame" style="display: none;" allowfullscreen></iframe>
+        <!-- Используем sandbox для предотвращения вылета из приложения в браузер -->
+        <iframe id="playerFrame" style="display: none;" sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"></iframe>
     </div>
 
     <script>
@@ -115,7 +114,7 @@
 
             placeholder.style.display = 'none';
             playerFrame.style.display = 'block';
-            playerFrame.src = targetUrl; // Загружаем плеер прямо в элемент на странице
+            playerFrame.src = targetUrl;
         }
     </script>
 </body>
