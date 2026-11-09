@@ -15,19 +15,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             box-sizing: border-box;
         }
         h2 {
             margin-bottom: 15px;
-            font-size: 20px;
+            font-size: 22px;
+            text-align: center;
         }
         .search-container {
             display: flex;
             width: 100%;
-            max-width: 500px;
+            max-width: 400px;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         input {
             flex: 1;
@@ -55,11 +57,20 @@
         button:active {
             background-color: #5b4bc4;
         }
-        .info-box {
+        .watch-btn {
+            display: none;
+            background-color: #00b894;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
             text-align: center;
-            color: #a29bfe;
-            margin-top: 20px;
-            font-size: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -68,46 +79,29 @@
     <h2>🎬 Введите ID фильма</h2>
     <div class="search-container">
         <input type="number" id="filmIdInput" placeholder="Например: 111">
-        <button onclick="prepareFilm()">Найти</button>
+        <button onclick="generateLink()">Найти</button>
     </div>
 
-    <div id="infoBox" class="info-box">
-        Введите ID фильма и нажмите «Найти», чтобы активировать плеер.
-    </div>
+    <a id="watchBtn" href="#" target="_blank" class="watch-btn">▶ СМОТРЕТЬ ФИЛЬМ</a>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        let targetUrl = '';
-
-        function prepareFilm() {
+        function generateLink() {
             const filmId = document.getElementById('filmIdInput').value;
-            const infoBox = document.getElementById('infoBox');
+            const watchBtn = document.getElementById('watchBtn');
 
             if (!filmId) {
                 alert('Пожалуйста, введите ID фильма!');
                 return;
             }
 
-            targetUrl = `https://g0r-09flg80.troutcdn.site/${filmId}`;
-
-            infoBox.innerHTML = "✅ Фильм найден! Нажмите на кнопку <b>«Смотреть»</b> внизу экрана.";
-
-            // Показываем официальную системную кнопку Telegram внизу интерфейса
-            tg.MainButton.text = "▶ СМОТРЕТЬ ПЛЕЕР";
-            tg.MainButton.color = "#6c5ce7";
-            tg.MainButton.textColor = "#ffffff";
-            tg.MainButton.show();
+            const targetUrl = `https://g0r-09flg80.troutcdn.site/${filmId}`;
+            
+            watchBtn.href = targetUrl;
+            watchBtn.style.display = 'block';
         }
-
-        // При нажатии на системную кнопку Telegram открывает плеер во встроенном окне
-        Telegram.WebApp.onEvent('mainButtonClicked', function(){
-            if (targetUrl) {
-                // Открываем во встроенном окне просмотрщика Telegram
-                tg.openLink(targetUrl);
-            }
-        });
     </script>
 </body>
 </html>
